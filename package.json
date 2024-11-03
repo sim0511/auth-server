@@ -1,0 +1,14 @@
+{
+  "name": "auth-server",
+  "version": "1.0.0",
+  "description": "Auth Server authenticates users so that resources can be protected from the unverified users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simrandeep Kaur",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
