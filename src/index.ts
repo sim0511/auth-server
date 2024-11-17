@@ -1,38 +1,38 @@
 /*=============================================
 =            import external modules          =
 =============================================*/
-import express, { Application, Request, Response,NextFunction } from 'express';
-import dotenv from 'dotenv';
-import helmet from 'helmet';
-import cors from 'cors';
+
+import express, { Application, NextFunction, Request, Response } from 'express';
+
 import {Server as HttpServer} from 'http';
 import { config } from './config/config.js';
-
+import connectToMongoDB from './utils/connectDB.js';
+import cors from 'cors';
+import {corsOptions} from './config/cors.js';
+import errorHandler from './middlewares/errorHandler.js';
+import helmet from 'helmet';
+import logger from './utils/logger.js';
 
 /*=============================================
 =            Import Custom Modules            =
 =============================================*/
-import {corsOptions} from './config/cors.js';
-import ApplicationError from './errors/applicationError.js';
-import connectToMongoDB from './utils/connectDB.js';
+
+
+
 /*=====  End of Import Custom Modules  ======*/
 
-// Load environment variables
-dotenv.config();
 
 
 
 class Server {
     private app:Application;
     private httpServer:HttpServer;
-    // private io:SocketIOServer;
-    // public notificationService:NotificationService;
     constructor() {
         this.app = express();
         this.httpServer = new HttpServer(this.app); // wrapping the express app with Http Server
         this.setUpMiddlewares();
         this.setRoutes();
-        this.app.use(this.errorHandler.bind(this));
+        this.app.use(errorHandler);
     }
 
 // setting up middlewares
@@ -43,11 +43,7 @@ setUpMiddlewares():void {
     this.app.use(cors(corsOptions));
 }
 
-// setting port
-    public setPort():number {
-        const PORT:number = config.PORT;
-        return PORT;
-    }
+
 
 // setting routes
     public setRoutes():void {
@@ -57,17 +53,6 @@ setUpMiddlewares():void {
     });
     }
 
-  // error handler
-    private errorHandler(err:any, req: Request, res: Response, next: NextFunction): void {
-      // logger.error(err.stack);
-      // console.log("hello")
-      console.log(err)
-      if(err instanceof ApplicationError){
-      res.status(err.statusCode).json({ error: err.error,statusCode:err.statusCode,details: process.env.Node_ENV=="development"?err.details:null});
-      }else{
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    }
 
   //  versioning routes
   private v1Routes(): express.Router {
@@ -92,20 +77,20 @@ setUpMiddlewares():void {
             // 'checking'
             //   )
               if(process.env.NODE_ENV === 'development'){
-                console.log(`Server is running on port ${port}`)
-                // logger.info(`Server is running on port ${port} and the user is ${userInfo.user}`);
+                
+                logger.info(`Server is running on port ${port}`);
               }else{
-                // logger.info(`Server is running on port ${port}`);
-                console.log(`Server is running on port ${port}`);
+                logger.info(`Server is running on port ${port}`);
+                
               }
           });
         }catch(error){
             if(process.env.NODE_ENV === 'development'){
-              // logger.error(`Error: ${error} and the user is ${userInfo.user}`);
-              console.log(`Error: ${error}`);
+              logger.error(`Error: ${error}`);
+             
             }else{
-                // logger.error(`Error: ${error}`);
-                console.log(`Error: ${error}`);
+              logger.error(`Error: ${error}`);
+               
             }
         
     }
@@ -113,5 +98,5 @@ setUpMiddlewares():void {
 }
 
 const server = new Server();
-const PORT = server.setPort();
-server.startServer(PORT);
+
+server.startServer(config.PORT);
