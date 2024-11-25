@@ -17,5 +17,7 @@ requiredEnv.forEach((envVar) => {
     PORT: parseInt(process.env.PORT || '9000', 10),
     Node_ENV: process.env.NODE_ENV || 'development',
     MONGO_PASSWORD: process.env.MONGO_PASSWORD,
-   
+    saltRounds: parseInt(process.env.SALT_ROUNDS || '10', 10),
+    tokenExpiration: process.env.TOKEN_EXPIRATION || '1h',
+    JWT_SECRET: process.env.JWT_SECRET,
   };
