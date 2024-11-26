@@ -2,4 +2,4 @@
     "watch": ["src"],
     "ext": "ts",
     "exec": "npx swc ./src -d ./dist && node ./dist/src/index.js"
-  }
+}

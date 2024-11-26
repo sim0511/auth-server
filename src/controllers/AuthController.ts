@@ -18,13 +18,13 @@ export class AuthController {
       const user = await authService.register(username, email, password);
       return res.status(201).json({ message: 'Registration successful' });
     } catch (error) {
-      next(error); // Pass error to error handler middleware
+      next(error);// Pass error to error handler middleware
     }
   }
 
   public async login(req: Request, res: Response, next: NextFunction) {
     const { username, password } = req.body;
-
+    console.log(req.body);
     try {
       if (!username || !password) {
         throw new ValidationError('Username and password are required.');

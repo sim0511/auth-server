@@ -1,6 +1,6 @@
 import 'winston-daily-rotate-file';
 
-import { createLogger, format, transports } from 'winston';
+import {createLogger, format, transports} from 'winston';
 
 const logFormat = format.printf(({ timestamp, level, message, stack }) => {
   return `${timestamp} [${level}]: ${stack || message}`;

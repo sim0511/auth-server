@@ -4,6 +4,7 @@
 
 import express, { Application, NextFunction, Request, Response } from 'express';
 
+import { AuthController } from './controllers/AuthController.js';
 import {Server as HttpServer} from 'http';
 import { config } from './config/config.js';
 import connectToMongoDB from './utils/connectDB.js';
@@ -61,10 +62,13 @@ setUpMiddlewares():void {
     router.get('/', (req: Request, res: Response, next: NextFunction) => {
         res.send('Hello World from API v1');
     });
-
-    // Define other v1 specific routes here
     
-   
+    // Define other v1 specific routes here
+    const auth = new AuthController();
+    router.post('/register', auth.register.bind(AuthController));
+    
+    router.post('/login', auth.login.bind(AuthController));
+    
     return router;
 }
 // start server 
@@ -72,7 +76,7 @@ setUpMiddlewares():void {
         try{
           await connectToMongoDB();
           this.httpServer.listen(port, () => 
-          {     
+          {
             //   logger.warn(
             // 'checking'
             //   )

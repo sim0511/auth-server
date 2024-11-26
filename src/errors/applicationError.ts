@@ -7,7 +7,7 @@ class ApplicationError extends Error {
         this.details = details;
         Error.captureStackTrace(this, this.constructor);
     }
-}
+  }
 
 class ValidationError extends ApplicationError {
     constructor(message = 'Invalid request data', details?: string) {

@@ -10,7 +10,8 @@ dotenv.config();
 // connection to the database
 async function connectToMongoDB(){
     
-    const mongoURI = `mongodb+srv://simrandeep2012:${process.env.MONGO_PASSWORD}@cluster0.mhwrdc1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+    const mongoURI = `mongodb+srv://simrandeep2012:${process.env.MONGO_PASSWORD}@auth-server.wiwhj.mongodb.net/oauth?retryWrites=true&w=majority&appName=auth-server`
+
     try {
       await mongoose.connect(mongoURI);
       // logger.info('Connected to MongoDB successfully');
