@@ -5,11 +5,14 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 
 import { AuthController } from './controllers/AuthController.js';
+import AuthRoutes from './routes/auth.route.js';
 import {Server as HttpServer} from 'http';
+import UserRoutes from './routes/user.route.js';
 import { config } from './config/config.js';
 import connectToMongoDB from './utils/connectDB.js';
 import cors from 'cors';
 import {corsOptions} from './config/cors.js';
+import dotenv from 'dotenv';
 import errorHandler from './middlewares/errorHandler.js';
 import helmet from 'helmet';
 import logger from './utils/logger.js';
@@ -18,6 +21,9 @@ import logger from './utils/logger.js';
 =            Import Custom Modules            =
 =============================================*/
 
+
+
+dotenv.config();
 
 
 /*=====  End of Import Custom Modules  ======*/
@@ -51,8 +57,8 @@ setUpMiddlewares():void {
       this.app.use('/api/v1', this.v1Routes());
         this.app.get('/', (req:Request, res:Response, next:NextFunction) => {
             res.send('Hello World');           
-    });
-    }
+    })
+  }
 
 
   //  versioning routes
@@ -65,9 +71,9 @@ setUpMiddlewares():void {
     
     // Define other v1 specific routes here
     const auth = new AuthController();
-    router.post('/register', auth.register.bind(AuthController));
-    
-    router.post('/login', auth.login.bind(AuthController));
+    // Define other v1 specific routes here
+    router.use(AuthRoutes);
+    router.use(UserRoutes);
     
     return router;
 }
@@ -102,5 +108,5 @@ setUpMiddlewares():void {
 }
 
 const server = new Server();
-
-server.startServer(config.PORT);
+console.log('config.PORT', process.env.PORT);
+server.startServer(Number(process.env.PORT));

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
+    "build-run": "nodemon npx swc ./src -d ./dist && node ./dist/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Simrandeep Kaur",
@@ -24,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "google-auth-library": "^9.15.0",
     "helmet": "^7.1.0",
     "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",

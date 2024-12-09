@@ -20,4 +20,8 @@ requiredEnv.forEach((envVar) => {
     saltRounds: parseInt(process.env.SALT_ROUNDS || '10', 10),
     tokenExpiration: process.env.TOKEN_EXPIRATION || '1h',
     JWT_SECRET: process.env.JWT_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   };
