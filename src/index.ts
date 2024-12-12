@@ -10,6 +10,7 @@ import {Server as HttpServer} from 'http';
 import UserRoutes from './routes/user.route.js';
 import { config } from './config/config.js';
 import connectToMongoDB from './utils/connectDB.js';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {corsOptions} from './config/cors.js';
 import dotenv from 'dotenv';
@@ -48,10 +49,8 @@ setUpMiddlewares():void {
     this.app.use(express.urlencoded({limit: '50mb', extended:true}));
     this.app.use(helmet());
     this.app.use(cors(corsOptions));
+    this.app.use(cookieParser());
 }
-
-
-
 // setting routes
     public setRoutes():void {
       this.app.use('/api/v1', this.v1Routes());
