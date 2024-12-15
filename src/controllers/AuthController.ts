@@ -50,7 +50,8 @@ export class AuthController {
         secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
         sameSite: 'strict',  // Protect against CSRF
         maxAge: 5*60*1000, // Token validity: 2 minutes
-        path: '/'           // Cookie is valid for all routes 
+        path: '/',           // Cookie is valid for all routes 
+        domain: 'simrandev.com'
       });
 
       return res.status(200).json({ message: 'Login successful'});
@@ -83,9 +84,10 @@ export class AuthController {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
           maxAge: 5*60*1000, // Token validity: 5 minutes
-          path: '/'
+          path: '/',
+          domain: 'simrandev.com'
         });
-    res.redirect('http://localhost:3000/availability');
+    res.redirect('https://www.simrandev.com/availability');
     } catch (error) {
       next(error);
     }
@@ -100,7 +102,8 @@ export class AuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      path: '/'
+      path: '/',
+      domain: 'simrandev.com',
     });
     return res.status(200).json({ message: 'Logout successful' });
     
